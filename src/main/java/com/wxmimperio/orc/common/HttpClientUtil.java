@@ -117,7 +117,6 @@ public class HttpClientUtil {
         String result = null;
         url = url.replaceAll(" ", "%20");
         try {
-//			log.info("#request:"+url);
             HttpGet httpget = new HttpGet(url);
             HttpContext context = new BasicHttpContext();
             CloseableHttpResponse response = httpClient.execute(httpget, context);
@@ -127,7 +126,6 @@ public class HttpClientUtil {
                 HttpEntity entity = response.getEntity();
                 if (entity != null) {
                     result = EntityUtils.toString(entity, "utf-8");
-//					log.info("#result:"+result);
                 }
             } finally {
                 response.close();
@@ -147,11 +145,8 @@ public class HttpClientUtil {
      */
     public static String doPost(String url, Map<String, String> param) throws Exception {
         String result = null;
-
-        log.info("-----temp-----url : " + url);
         HttpPost httpPost = new HttpPost(url);
         try {
-//        	log.info("requestURL:"+url+","+param.toString());
             httpPost.setConfig(requestConfig);
             List<NameValuePair> nvps = new ArrayList<NameValuePair>();
             if (null != param) {
@@ -169,7 +164,6 @@ public class HttpClientUtil {
                         if (entity != null) {
                             result = EntityUtils.toString(entity);
                             log.info("#result:" + result);
-//            				log.info("cost time:"+(System.currentTimeMillis()-start)+"ms,response:"+result);
                         }
                     } finally {
                         if (entity != null) {
@@ -177,7 +171,7 @@ public class HttpClientUtil {
                         }
                     }
                 } else {
-//            		log.info("HttpStatus:"+response.getStatusLine().getStatusCode());
+                    log.info("HttpStatus:" + response.getStatusLine().getStatusCode());
                 }
             } finally {
                 if (response != null) {
@@ -206,7 +200,7 @@ public class HttpClientUtil {
         try {
             log.info("#请求地址：" + url + ";请求参数：" + param);
             httpPost.setConfig(requestConfig);
-            httpPost.setEntity(new StringEntity(param.toString(),StandardCharsets.UTF_8));
+            httpPost.setEntity(new StringEntity(param.toString(), StandardCharsets.UTF_8));
             CloseableHttpResponse response = httpClient.execute(httpPost);
             try {
 

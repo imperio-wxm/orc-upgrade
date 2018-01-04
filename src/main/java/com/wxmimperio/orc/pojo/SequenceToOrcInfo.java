@@ -11,7 +11,7 @@ public class SequenceToOrcInfo {
     private String table_name;
     private String table_type = "hive";
     private String table_status = "init";
-    private String upgrade_time = Utils.eventTomeFormat.get().format(new Date());
+    private String upgrade_time = "";
     private String finish_time = "";
 
     public SequenceToOrcInfo() {
