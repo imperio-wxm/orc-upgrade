@@ -30,12 +30,25 @@ public class SequenceToOrcDaoImpl implements SequenceToOrcDao {
     }
 
     @Override
-    public void update(SequenceToOrcDao sequenceToOrcDao) throws Exception {
+    public void update(SequenceToOrcInfo sequenceToOrcInfo) throws Exception {
+        if (tableInfoMapper.getByTableName(sequenceToOrcInfo.getTable_name()).size() != 0) {
+            tableInfoMapper.update(sequenceToOrcInfo);
+        }
+    }
+
+    @Override
+    public void remove(SequenceToOrcInfo sequenceToOrcInfo) throws Exception {
 
     }
 
     @Override
-    public void remove(SequenceToOrcDao sequenceToOrcDao) throws Exception {
+    public List<SequenceToOrcInfo> getAll() throws Exception {
+        add();
+        return tableInfoMapper.getAllTables();
+    }
 
+    @Override
+    public SequenceToOrcInfo getTopicByName(String tableName) throws Exception {
+        return tableInfoMapper.getByTableName(tableName).get(0);
     }
 }

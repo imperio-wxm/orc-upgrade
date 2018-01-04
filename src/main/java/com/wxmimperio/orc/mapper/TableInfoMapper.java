@@ -40,6 +40,17 @@ public interface TableInfoMapper {
     })
     List<SequenceToOrcInfo> getByTableName(@Param("table_name") String table_name) throws Exception;
 
+    @Select("select * from sequence_to_orc")
+    @Results(value = {
+            @Result(property = "id", column = "id", javaType = Long.class, jdbcType = JdbcType.INTEGER),
+            @Result(property = "table_name", column = "table_name", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+            @Result(property = "table_type", column = "table_type", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+            @Result(property = "table_status", column = "table_status", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+            @Result(property = "upgrade_time", column = "upgrade_time", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+            @Result(property = "finish_time", column = "finish_time", javaType = String.class, jdbcType = JdbcType.VARCHAR)
+    })
+    List<SequenceToOrcInfo> getAllTables() throws Exception;
+
     @Update("update sequence_to_orc set table_name=#{table_name}," +
             "table_type=#{table_type}," +
             "table_status=#{table_status}," +
