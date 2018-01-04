@@ -1,9 +1,10 @@
 package com.wxmimperio.orc.controller;
 
-import com.google.gson.JsonObject;
 import com.wxmimperio.orc.common.Utils;
+import com.wxmimperio.orc.dao.impl.ConfigDaoImpl;
+import com.wxmimperio.orc.dao.impl.SequenceToOrcDaoImpl;
 import com.wxmimperio.orc.mapper.TableInfoMapper;
-import com.wxmimperio.orc.pojo.TableInfo;
+import com.wxmimperio.orc.pojo.SequenceToOrcInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,25 +22,17 @@ import java.util.List;
 public class TestController {
 
     @Autowired
-    TableInfoMapper tableInfoMapper;
+    private TableInfoMapper tableInfoMapper;
+
+    @Autowired
+    private SequenceToOrcDaoImpl sequenceToOrcDao;
 
     @RequestMapping(value = "/test/{username}", method = RequestMethod.GET, consumes = "application/json")
     public String createTableController(@PathVariable String username) throws Exception {
         System.out.println("This is " + username);
 
 
-        TableInfo tableInfo = new TableInfo();
-        tableInfo.setTable_name("test_table");
-        //tableInfoMapper.add(tableInfo);
-        List<TableInfo> tableInfoList = tableInfoMapper.getByTableName("test_table");
-        if (tableInfoList.size() != 0) {
-            tableInfo = tableInfoList.get(0);
-            tableInfo.setFinish_time(Utils.eventTomeFormat.get().format(new Date()));
-            tableInfoMapper.update(tableInfo);
-        }
-
-        System.out.println(tableInfoList);
-
+        sequenceToOrcDao.add();
        /* Connection conn = dataSource.hikariDataSource().getConnection();
         conn.setAutoCommit(false);
         PreparedStatement pstat = conn.prepareStatement("create table IF NOT EXISTS book (id int(11), name varchar(45),price float); ",

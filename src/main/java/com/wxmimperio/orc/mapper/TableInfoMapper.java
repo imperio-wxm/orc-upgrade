@@ -1,6 +1,6 @@
 package com.wxmimperio.orc.mapper;
 
-import com.wxmimperio.orc.pojo.TableInfo;
+import com.wxmimperio.orc.pojo.SequenceToOrcInfo;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 import org.springframework.stereotype.Component;
@@ -27,7 +27,7 @@ public interface TableInfoMapper {
             "#{upgrade_time}," +
             "#{finish_time})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
-    void add(TableInfo tableInfo) throws Exception;
+    void add(SequenceToOrcInfo tableInfo) throws Exception;
 
     @Select("select * from sequence_to_orc where table_name='${table_name}'")
     @Results(value = {
@@ -38,12 +38,12 @@ public interface TableInfoMapper {
             @Result(property = "upgrade_time", column = "upgrade_time", javaType = String.class, jdbcType = JdbcType.VARCHAR),
             @Result(property = "finish_time", column = "finish_time", javaType = String.class, jdbcType = JdbcType.VARCHAR)
     })
-    List<TableInfo> getByTableName(@Param("table_name") String table_name) throws Exception;
+    List<SequenceToOrcInfo> getByTableName(@Param("table_name") String table_name) throws Exception;
 
     @Update("update sequence_to_orc set table_name=#{table_name}," +
             "table_type=#{table_type}," +
             "table_status=#{table_status}," +
             "upgrade_time=#{upgrade_time}," +
             "finish_time=#{finish_time}  WHERE id=#{id}")
-    void update(TableInfo tableInfo) throws Exception;
+    void update(SequenceToOrcInfo tableInfo) throws Exception;
 }

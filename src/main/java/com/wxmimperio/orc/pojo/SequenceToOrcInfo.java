@@ -5,7 +5,7 @@ import com.wxmimperio.orc.common.Utils;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class TableInfo {
+public class SequenceToOrcInfo {
 
     private Long id;
     private String table_name;
@@ -14,10 +14,10 @@ public class TableInfo {
     private String upgrade_time = Utils.eventTomeFormat.get().format(new Date());
     private String finish_time = "";
 
-    public TableInfo() {
+    public SequenceToOrcInfo() {
     }
 
-    public TableInfo(Long id, String table_name, String table_type, String table_status, String upgrade_time, String finish_time) {
+    public SequenceToOrcInfo(Long id, String table_name, String table_type, String table_status, String upgrade_time, String finish_time) {
         this.id = id;
         this.table_name = table_name;
         this.table_type = table_type;
