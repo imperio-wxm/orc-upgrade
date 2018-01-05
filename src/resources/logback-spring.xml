@@ -36,4 +36,8 @@
     <root level="INFO">
         <appender-ref ref="ERROR_FILE" />
     </root>
+
+    <logger name="com.wxmimperio.orc.mapper" level="DEBUG">
+        <appender-ref ref="ERROR_FILE" />
+    </logger>
 </configuration>
