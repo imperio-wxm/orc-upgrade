@@ -22,7 +22,11 @@ public class OrcUpgradeApplication {
         return new WebMvcConfigurerAdapter() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/").allowedOrigins("http://localhost:8900");
+                registry.addMapping("/**")
+                        .allowedOrigins("*")
+                        .allowCredentials(true)
+                        .allowedMethods("GET", "POST", "DELETE", "PUT")
+                        .maxAge(3600);
             }
         };
     }

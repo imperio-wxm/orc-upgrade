@@ -25,9 +25,7 @@ public class Utils {
 
     public static List<String> getConfigTopics(String url) throws Exception {
         CloseableHttpClient client = HttpClientUtil.getHttpClient();
-        String res = HttpClientUtil.doGet(
-                url
-        );
+        String res = HttpClientUtil.doGet(url);
         JsonObject jsonObject = new JsonParser().parse(res).getAsJsonObject();
         List<String> topicList = Arrays.asList(
                 jsonObject.get("propertySources")
