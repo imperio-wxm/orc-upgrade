@@ -1,5 +1,6 @@
 package com.wxmimperio.orc.mapper;
 
+
 import com.wxmimperio.orc.pojo.SequenceToOrcInfo;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
@@ -31,7 +32,7 @@ public interface TableInfoMapper {
     @Options(useGeneratedKeys = true, keyProperty = "id")
     void add(SequenceToOrcInfo tableInfo) throws Exception;
 
-    @Select("select * from sequence_to_orc where table_name='${table_name}'")
+    @Select("select * from sequence_to_orc where table_name='${table_name}' order by table_name,upgrade_time,finish_time")
     @Results(value = {
             @Result(property = "table_id", column = "table_id", javaType = Long.class, jdbcType = JdbcType.INTEGER),
             @Result(property = "table_name", column = "table_name", javaType = String.class, jdbcType = JdbcType.VARCHAR),
@@ -43,7 +44,7 @@ public interface TableInfoMapper {
     })
     List<SequenceToOrcInfo> getByTableName(@Param("table_name") String table_name) throws Exception;
 
-    @Select("select * from sequence_to_orc")
+    @Select("select * from sequence_to_orc order by table_name,upgrade_time,finish_time")
     @Results(value = {
             @Result(property = "table_id", column = "table_id", javaType = Long.class, jdbcType = JdbcType.INTEGER),
             @Result(property = "table_name", column = "table_name", javaType = String.class, jdbcType = JdbcType.VARCHAR),
@@ -63,7 +64,7 @@ public interface TableInfoMapper {
             "finish_time=#{finish_time}  WHERE table_id=#{table_id}")
     void update(SequenceToOrcInfo tableInfo) throws Exception;
 
-    @Select("select * from sequence_to_orc where table_status = '${table_status}'")
+    @Select("select * from sequence_to_orc where table_status = '${table_status}' order by table_name,upgrade_time,finish_time")
     @Results(value = {
             @Result(property = "table_id", column = "table_id", javaType = Long.class, jdbcType = JdbcType.INTEGER),
             @Result(property = "table_name", column = "table_name", javaType = String.class, jdbcType = JdbcType.VARCHAR),
@@ -75,7 +76,7 @@ public interface TableInfoMapper {
     })
     List<SequenceToOrcInfo> getTablesByStatus(@Param("table_status") String table_status) throws Exception;
 
-    @Select("select * from sequence_to_orc where table_type = '${table_type}'")
+    @Select("select * from sequence_to_orc where table_type = '${table_type}' order by table_name,upgrade_time,finish_time")
     @Results(value = {
             @Result(property = "table_id", column = "table_id", javaType = Long.class, jdbcType = JdbcType.INTEGER),
             @Result(property = "table_name", column = "table_name", javaType = String.class, jdbcType = JdbcType.VARCHAR),
