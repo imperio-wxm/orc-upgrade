@@ -10,8 +10,6 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.message.BasicHeader;
 
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
 public class Utils {
@@ -23,22 +21,19 @@ public class Utils {
         }
     };
 
-    public static List<String> getConfigTopics(String url) throws Exception {
+    public static JsonObject getConfigTopics(String url) throws Exception {
         CloseableHttpClient client = HttpClientUtil.getHttpClient();
         String res = HttpClientUtil.doGet(url);
         JsonObject jsonObject = new JsonParser().parse(res).getAsJsonObject();
-        List<String> topicList = Arrays.asList(
-                jsonObject.get("propertySources")
-                        .getAsJsonArray()
-                        .get(0)
-                        .getAsJsonObject()
-                        .get("source")
-                        .getAsJsonObject().get("schema.topic.name")
-                        .getAsString()
-                        .split(",", -1)
-        );
+        jsonObject = jsonObject.get("propertySources")
+                .getAsJsonArray()
+                .get(0)
+                .getAsJsonObject()
+                .get("source")
+                .getAsJsonObject();
+
         client.close();
-        return topicList;
+        return jsonObject;
     }
 
     public static void putConfigTopics(String url, Map<String, String> paraMap) throws Exception {

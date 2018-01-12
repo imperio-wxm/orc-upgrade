@@ -1,49 +1,47 @@
 package com.wxmimperio.orc.pojo;
 
-import com.wxmimperio.orc.common.Utils;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public class SequenceToOrcInfo {
 
-    private Long id;
+    private Long table_id;
     private String table_name;
-    private String table_type = "hive";
-    private String table_status = "init";
+    private String table_type = "Hive";
+    private String table_status = "Init";
+    private String part_date = "";
     private String upgrade_time = "";
     private String finish_time = "";
 
     public SequenceToOrcInfo() {
     }
 
-    public SequenceToOrcInfo(Long id, String table_name, String table_type, String table_status, String upgrade_time, String finish_time) {
-        this.id = id;
+    public SequenceToOrcInfo(Long table_id, String table_name, String table_type, String table_status, String part_date, String upgrade_time, String finish_time) {
+        this.table_id = table_id;
         this.table_name = table_name;
         this.table_type = table_type;
         this.table_status = table_status;
         this.upgrade_time = upgrade_time;
         this.finish_time = finish_time;
+        this.part_date = part_date;
     }
 
     @Override
     public String toString() {
-        return "TableInfo{" +
-                "id=" + id +
-                ", tableName='" + table_name + '\'' +
+        return "SequenceToOrcInfo{" +
+                "table_id=" + table_id +
+                ", table_name='" + table_name + '\'' +
                 ", table_type='" + table_type + '\'' +
-                ", table_status=" + table_status +
+                ", table_status='" + table_status + '\'' +
+                ", part_date='" + part_date + '\'' +
                 ", upgrade_time='" + upgrade_time + '\'' +
                 ", finish_time='" + finish_time + '\'' +
                 '}';
     }
 
-    public Long getId() {
-        return id;
+    public Long getTable_id() {
+        return table_id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setTable_id(Long table_id) {
+        this.table_id = table_id;
     }
 
     public String getTable_name() {
@@ -84,5 +82,13 @@ public class SequenceToOrcInfo {
 
     public void setFinish_time(String finish_time) {
         this.finish_time = finish_time;
+    }
+
+    public String getPart_date() {
+        return part_date;
+    }
+
+    public void setPart_date(String part_date) {
+        this.part_date = part_date;
     }
 }

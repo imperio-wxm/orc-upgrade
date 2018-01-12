@@ -15,4 +15,8 @@ public interface SequenceToOrcDao {
     List<SequenceToOrcInfo> getAll() throws Exception;
 
     SequenceToOrcInfo getTopicByName(String tableName) throws Exception;
+
+    List<SequenceToOrcInfo> getTablesByType(String type) throws Exception;
+
+    List<SequenceToOrcInfo> getTablesByStatus(String status) throws Exception;
 }

@@ -9,13 +9,14 @@ import com.wxmimperio.orc.pojo.SequenceToOrcInfo;
 import com.wxmimperio.orc.service.SequenceToOrcService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
 
 @Component
-public class SequenceToOrcServiceImpl implements SequenceToOrcService {
+public class SequenceToOrcServiceImpl implements SequenceToOrcService, InitializingBean {
     private static final Log LOG = LogFactory.getLog(SequenceToOrcDaoImpl.class);
 
     @Autowired
@@ -25,19 +26,38 @@ public class SequenceToOrcServiceImpl implements SequenceToOrcService {
     @Autowired
     private GlobalProperties globalProperties;
 
-    @Override
-    public void upGradeTables(SequenceToOrcInfo sequenceToOrcInfo) throws Exception {
-        List<String> hdfsTopics = configDao.getHdfsTopics();
-        List<String> hbaseTopics = configDao.getHBaseTopics();
-        String tableName = sequenceToOrcInfo.getTable_name();
+    private List<String> hdfsTopics;
+    private List<String> hbaseTopics;
 
-        if (hdfsTopics.contains(tableName) && !hbaseTopics.contains(tableName)) {
-            Map<String, String> newHdfsTopic = getNewHdfsTopics(hdfsTopics, tableName);
-            Map<String, String> newHbaseTopic = getNewHBaseTopics(hbaseTopics, tableName);
-            sequenceToOrcDao.update(sequenceToOrcInfo);
-            configDao.putHdfsTopics(newHdfsTopic);
-            configDao.putHBaseTopics(newHbaseTopic);
-            LOG.info("Upgrade data = " + sequenceToOrcInfo);
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        hdfsTopics = configDao.getHdfsTopics();
+        hbaseTopics = configDao.getHBaseTopics();
+    }
+
+    @Override
+    public void upGradeTables(List<SequenceToOrcInfo> sequenceToOrcInfos) throws Exception {
+
+        System.out.println("src hdfs map " + hdfsTopics);
+        System.out.println("src hbase map " + hbaseTopics);
+
+        System.out.println("---------------------");
+
+        for (SequenceToOrcInfo sequenceToOrcInfo : sequenceToOrcInfos) {
+            String tableName = sequenceToOrcInfo.getTable_name();
+            if (hdfsTopics.contains(tableName) && !hbaseTopics.contains(tableName)) {
+                Map<String, String> newHdfsTopic = getNewHdfsTopics(hdfsTopics, tableName);
+                Map<String, String> newHbaseTopic = getNewHBaseTopics(hbaseTopics, tableName);
+                sequenceToOrcDao.update(sequenceToOrcInfo);
+                configDao.putHdfsTopics(newHdfsTopic);
+                configDao.putHBaseTopics(newHbaseTopic);
+                setNewTopics(newHdfsTopic);
+                setNewTopics(newHbaseTopic);
+                System.out.println("hdfs map " + newHdfsTopic);
+                System.out.println("hbase map " + newHbaseTopic);
+                LOG.info("Upgrade data = " + sequenceToOrcInfo);
+                System.out.println("====================");
+            }
         }
     }
 
@@ -79,5 +99,17 @@ public class SequenceToOrcServiceImpl implements SequenceToOrcService {
                 substring(1, oldTopics.toString().length() - 1).
                 replaceAll(" ", ""));
         return paraMap;
+    }
+
+    private void setNewTopics(Map<String, String> newTopic) {
+        for (String topic : newTopic.keySet()) {
+            if (topic.equalsIgnoreCase("schema.topic.name")) {
+                hdfsTopics.clear();
+                hdfsTopics.add(newTopic.get(topic));
+            } else if (topic.equalsIgnoreCase("hbase.table.list")) {
+                hbaseTopics.clear();
+                hbaseTopics.add(newTopic.get(topic));
+            }
+        }
     }
 }

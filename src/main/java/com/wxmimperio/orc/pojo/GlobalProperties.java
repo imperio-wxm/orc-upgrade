@@ -1,89 +1,98 @@
 package com.wxmimperio.orc.pojo;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotNull;
 
-@ConfigurationProperties(prefix = "rt.datasheets")
+@ConfigurationProperties(prefix = "orc.upgrade")
+@Component
 public class GlobalProperties {
+    @NotNull
+    @NotBlank
+    @Value("${orc.upgrade.hdfs-uri}")
+    private String hdfsUri;
+    @NotNull
+    @NotBlank
+    @Value("${orc.upgrade.hdfs-config-url}")
+    private String hdfsConfigUrl;
+    @NotNull
+    @NotBlank
+    @Value("${orc.upgrade.hdfs-type}")
+    private String hdfsType;
+    @NotNull
+    @NotBlank
+    @Value("${orc.upgrade.hbase-config-url}")
+    private String hbaeConfigUrl;
+    @NotNull
+    @NotBlank
+    @Value("${orc.upgrade.hbase-type}")
+    private String hbaseType;
+    @NotNull
+    @NotBlank
+    @Value("${orc.upgrade.hdfs-prefix}")
+    private String hdfsPrefix;
 
-    @NotNull
-    @NotBlank
-    private String hivePath;
-    @NotNull
-    @NotBlank
-    private String hiveDataBase;
-    @NotNull
-    @NotBlank
-    private String schemaURL;
-    @NotNull
-    @NotBlank
-    private String cassandraConnect;
-    @NotNull
-    @NotBlank
-    private String keySpaceName;
-    @NotNull
-    @NotBlank
-    private String hiveConnectionUrl;
 
     @Override
     public String toString() {
         return "GlobalProperties{" +
-                "hivePath='" + hivePath + '\'' +
-                ", hiveDataBase='" + hiveDataBase + '\'' +
-                ", schemaURL='" + schemaURL + '\'' +
-                ", cassandraConnect='" + cassandraConnect + '\'' +
-                ", keySpaceName='" + keySpaceName + '\'' +
-                ", hiveConnectionUrl='" + hiveConnectionUrl + '\'' +
+                "hdfsUri='" + hdfsUri + '\'' +
+                ", hdfsConfigUrl='" + hdfsConfigUrl + '\'' +
+                ", hdfsType='" + hdfsType + '\'' +
+                ", hbaeConfigUrl='" + hbaeConfigUrl + '\'' +
+                ", hbaseType='" + hbaseType + '\'' +
+                ", hdfsPrefix='" + hdfsPrefix + '\'' +
                 '}';
     }
 
-    public String getHiveConnectionUrl() {
-        return hiveConnectionUrl;
+    public String getHdfsPrefix() {
+        return hdfsPrefix;
     }
 
-    public void setHiveConnectionUrl(String hiveConnectionUrl) {
-        this.hiveConnectionUrl = hiveConnectionUrl;
+    public void setHdfsPrefix(String hdfsPrefix) {
+        this.hdfsPrefix = hdfsPrefix;
     }
 
-    public String getHivePath() {
-        return hivePath;
+    public String getHdfsUri() {
+        return hdfsUri;
     }
 
-    public void setHivePath(String hivePath) {
-        this.hivePath = hivePath;
+    public void setHdfsUri(String hdfsUri) {
+        this.hdfsUri = hdfsUri;
     }
 
-    public String getHiveDataBase() {
-        return hiveDataBase;
+    public String getHdfsConfigUrl() {
+        return hdfsConfigUrl;
     }
 
-    public void setHiveDataBase(String hiveDataBase) {
-        this.hiveDataBase = hiveDataBase;
+    public void setHdfsConfigUrl(String hdfsConfigUrl) {
+        this.hdfsConfigUrl = hdfsConfigUrl;
     }
 
-    public String getSchemaURL() {
-        return schemaURL;
+    public String getHdfsType() {
+        return hdfsType;
     }
 
-    public void setSchemaURL(String schemaURL) {
-        this.schemaURL = schemaURL;
+    public void setHdfsType(String hdfsType) {
+        this.hdfsType = hdfsType;
     }
 
-    public String getCassandraConnect() {
-        return cassandraConnect;
+    public String getHbaeConfigUrl() {
+        return hbaeConfigUrl;
     }
 
-    public void setCassandraConnect(String cassandraConnect) {
-        this.cassandraConnect = cassandraConnect;
+    public void setHbaeConfigUrl(String hbaeConfigUrl) {
+        this.hbaeConfigUrl = hbaeConfigUrl;
     }
 
-    public String getKeySpaceName() {
-        return keySpaceName;
+    public String getHbaseType() {
+        return hbaseType;
     }
 
-    public void setKeySpaceName(String keySpaceName) {
-        this.keySpaceName = keySpaceName;
+    public void setHbaseType(String hbaseType) {
+        this.hbaseType = hbaseType;
     }
 }

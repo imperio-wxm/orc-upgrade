@@ -10,7 +10,6 @@ import java.util.List;
 
 @Component
 public class SequenceToOrcDaoImpl implements SequenceToOrcDao {
-
     @Autowired
     private TableInfoMapper tableInfoMapper;
 
@@ -25,6 +24,7 @@ public class SequenceToOrcDaoImpl implements SequenceToOrcDao {
                 SequenceToOrcInfo sequenceToOrcInfo = new SequenceToOrcInfo();
                 sequenceToOrcInfo.setTable_name(topicName);
                 tableInfoMapper.add(sequenceToOrcInfo);
+                System.out.println("add " + sequenceToOrcInfo);
             }
         }
     }
@@ -49,6 +49,20 @@ public class SequenceToOrcDaoImpl implements SequenceToOrcDao {
 
     @Override
     public SequenceToOrcInfo getTopicByName(String tableName) throws Exception {
+        List<SequenceToOrcInfo> sequenceToOrcInfoList = tableInfoMapper.getByTableName(tableName);
+        if (sequenceToOrcInfoList.size() == 0) {
+            return null;
+        }
         return tableInfoMapper.getByTableName(tableName).get(0);
+    }
+
+    @Override
+    public List<SequenceToOrcInfo> getTablesByType(String type) throws Exception {
+        return tableInfoMapper.getTablesByType(type);
+    }
+
+    @Override
+    public List<SequenceToOrcInfo> getTablesByStatus(String status) throws Exception {
+        return tableInfoMapper.getTablesByStatus(status);
     }
 }
